@@ -5,6 +5,7 @@ En la terminal PowerShell, navega a la raíz del proyecto:
 # primer-proyecto-fs01-main"
 Luego compila:
 # .\gradlew.bat clean build
+
 ⏳ La primera vez tarda más (descarga dependencias). Las siguientes veces es más rápido.
 
 🎯 Paso 2: Ejecutar la aplicación
