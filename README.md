@@ -1,10 +1,13 @@
 # proyecto_FS3
 
-cd a la carpeta del proyecto: primer-proyecto-fs01-main
-instalar dependencias y compilar
-.\gradlew.bat clean build
+🚀 Paso 1: Compilar el proyecto
+En la terminal PowerShell, navega a la raíz del proyecto:
+## primer-proyecto-fs01-main"
+Luego compila:
 
-Ejecutar aplicacion
-.\gradlew.bat bootRun
+⏳ La primera vez tarda más (descarga dependencias). Las siguientes veces es más rápido.
+
+🎯 Paso 2: Ejecutar la aplicación
+Verás una salida como esta cuando esté listo:
 
 ✅ ¡Tu API está corriendo en http://localhost:8080
