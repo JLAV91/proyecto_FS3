@@ -8,7 +8,7 @@ Proyecto desarrollado con **Spring Boot** que expone una API ejecutándose en un
 
 Antes de ejecutar el proyecto asegúrate de tener instalado:
 
-- ☕ **Java JDK 17 o superior**
+- ☕ **Java JDK 25 o superior**
 - 🧰 **Gradle** (opcional, el proyecto incluye `gradlew`)
 - 💻 **Git**
 - 🧑‍💻 **PowerShell / Terminal**
