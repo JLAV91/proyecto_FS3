@@ -1,120 +1,199 @@
-# 📦 proyecto_FS3
+# 📦 Proyecto FS3
 
-Proyecto desarrollado con **Spring Boot** que expone una API ejecutándose en un servidor local.
+Proyecto desarrollado con **Spring Boot** que expone una API REST para gestionar usuarios y productos. La aplicación se ejecuta en un servidor local y utiliza MySQL como base de datos.
 
----
+##  Tabla de Contenidos
 
-## 📋 Requisitos
+- [Requisitos](#requisitos)
+- [Instalación](#instalación)
+- [Configuración de la Base de Datos](#configuración-de-la-base-de-datos)
+- [Compilación y Ejecución](#compilación-y-ejecución)
+- [Acceso a la API](#acceso-a-la-api)
+- [Endpoints de la API](#endpoints-de-la-api)
+- [Pruebas](#pruebas)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Contribución](#contribución)
 
-Antes de ejecutar el proyecto asegúrate de tener instalado:
+##  Requisitos
 
-- ☕ **Java JDK 25 o superior**
-- 🧰 **Gradle** (opcional, el proyecto incluye `gradlew`)
-- 💻 **Git**
-- 🧑‍💻 **PowerShell / Terminal**
+Antes de ejecutar el proyecto, aseg�rate de tener instalado:
+
+-  **Java JDK 17 o superior** (recomendado JDK 21)
+-  **Gradle** (opcional, el proyecto incluye gradlew)
+-  **Git**
+-  **Docker** (opcional, para ejecutar con contenedor)
+-  **MySQL** (para la base de datos)
 
 Puedes verificar Java con:
 
 ```bash
 java -version
-📥 Clonar el repositorio
-git clone https://github.com/tu-usuario/proyecto_FS3.git
+```
 
-Luego entra al directorio del proyecto:
+##  Instalaci�n
 
-cd primer-proyecto-fs01-main
-🚀 Compilar el proyecto
+1. Clona el repositorio:
 
-En PowerShell, ejecuta:
+   ```bash
+   git clone https://github.com/tu-usuario/proyecto_FS3.git
+   ```
 
+2. Entra al directorio del proyecto:
+
+   ```bash
+   cd proyecto_FS3
+   ```
+
+##  Configuraci�n de la Base de Datos
+
+1. Instala y configura MySQL en tu sistema.
+
+2. Crea una base de datos llamada primer_proyecto (o ajusta seg�n pplication.properties).
+
+3. Ejecuta el script de inicializaci�n:
+
+   ```bash
+   mysql -u root -p primer_proyecto < init-mysql.sql
+   ```
+
+   O importa el archivo init-mysql.sql en tu cliente MySQL.
+
+4. Verifica la configuraci�n en src/main/resources/application.properties.
+
+##  Compilaci�n y Ejecuci�n
+
+### Compilaci�n
+
+En PowerShell o terminal, ejecuta:
+
+```bash
 .\gradlew.bat clean build
+```
 
-⏳ Nota:
-La primera vez puede tardar más porque Gradle descargará todas las dependencias necesarias.
+**Nota:** La primera vez puede tardar m�s porque Gradle descargar� todas las dependencias necesarias.
 
-▶️ Ejecutar la aplicación
+### Ejecuci�n
 
 Ejecuta el siguiente comando:
 
+```bash
 .\gradlew.bat bootRun
+```
 
-Cuando la aplicación esté lista verás algo similar a:
+Cuando la aplicaci�n est� lista, ver�s algo similar a:
 
+`
 Tomcat started on port(s): 8080 (http)
 Started PrimerProyectoApplication in X.XXX seconds
-🌐 Acceder a la API
+`
 
-Una vez iniciada la aplicación, la API estará disponible en:
+### Con Docker (opcional)
 
-http://localhost:8080
-📂 Estructura del proyecto
-proyecto_FS3
-│
-├── src
-│   ├── main
-│   │   ├── java
-│   │   └── resources
-│   │
-│   └── test
-│
-├── build.gradle
-├── gradlew
-├── gradlew.bat
-└── README.md
-🛠 Tecnologías utilizadas
+Si prefieres usar Docker:
 
-Java
-
-Spring Boot
-
-Gradle
-
-Tomcat embebido
-
----
+```bash
+docker build -t proyecto-fs3 .
+docker run -p 3000:8080 proyecto-fs3
 ```
 
-## 🧪 Pruebas Completas para Postman
+##  Acceso a la API
 
-### ⚙️ Configuración Base
-- **URL Base:** `http://localhost:8080`
-- **Content-Type:** `application/json`
+Una vez iniciada la aplicaci�n, la API estar� disponible en:
 
----
+[http://localhost:8080](http://localhost:8080)
 
-### 👥 USERS - Usuarios
+##  Endpoints de la API
 
-#### 1️⃣ Crear un nuevo usuario
+La API expone los siguientes endpoints principales:
+
+### Usuarios
+
+- GET /api/v1/users - Obtener todos los usuarios
+- GET /api/v1/users/{id} - Obtener usuario por ID
+- POST /api/v1/users - Crear un nuevo usuario
+- PUT /api/v1/users/{id} - Actualizar usuario
+- DELETE /api/v1/users/{id} - Eliminar usuario
+
+### Productos
+
+- GET /api/v1/products - Obtener todos los productos
+- GET /api/v1/products/{id} - Obtener producto por ID
+- POST /api/v1/products - Crear un nuevo producto
+- PUT /api/v1/products/{id} - Actualizar producto
+- DELETE /api/v1/products/{id} - Eliminar producto
+
+Para m�s detalles, consulta la documentaci�n de la API o el c�digo en src/main/java/com/primerproyecto/api/controller/.
+
+##  Pruebas
+
+### Pruebas Unitarias
+
+Ejecuta las pruebas con:
+
+```bash
+.\gradlew.bat test
 ```
+
+### Pruebas de API
+
+Usa el archivo 	est.http para probar los endpoints con la extensi�n REST Client en VS Code, o herramientas como Postman.
+
+#### Con REST Client (test.http)
+
+Ejemplo de contenido en 	est.http:
+
+`
+GET http://localhost:8080/api/v1/users
+
+###
+
 POST http://localhost:8080/api/v1/users
-```
+Content-Type: application/json
 
-**Body (JSON):**
-```json
 {
   "username": "juan_perez",
   "email": "juan@example.com"
 }
-```
+`
+
+#### Pruebas Completas para Postman
+
+#####  Configuraci�n Base
+- **URL Base:** http://localhost:8080
+- **Content-Type:** pplication/json
+
+#####  USERS - Usuarios
+
+###### 1 Crear un nuevo usuario
+`
+POST http://localhost:8080/api/v1/users
+`
+
+**Body (JSON):**
+`json
+{
+  "username": "juan_perez",
+  "email": "juan@example.com"
+}
+`
 
 **Respuesta esperada (201):**
-```json
+`json
 {
   "id": 1,
   "username": "juan_perez",
   "email": "juan@example.com"
 }
-```
+`
 
----
-
-#### 2️⃣ Obtener todos los usuarios
-```
+###### 2 Obtener todos los usuarios
+`
 GET http://localhost:8080/api/v1/users
-```
+`
 
 **Respuesta esperada (200):**
-```json
+`json
 [
   {
     "id": 1,
@@ -127,322 +206,156 @@ GET http://localhost:8080/api/v1/users
     "email": "maria@example.com"
   }
 ]
-```
+`
 
----
-
-#### 3️⃣ Obtener un usuario por ID
-```
+###### 3 Obtener un usuario por ID
+`
 GET http://localhost:8080/api/v1/users/1
-```
+`
 
 **Respuesta esperada (200):**
-```json
+`json
 {
   "id": 1,
   "username": "juan_perez",
   "email": "juan@example.com"
 }
-```
+`
 
----
-
-#### 4️⃣ Eliminar un usuario
-```
+###### 4 Eliminar un usuario
+`
 DELETE http://localhost:8080/api/v1/users/1
-```
+`
 
 **Respuesta esperada (204):** Sin contenido
 
----
+#####  PRODUCTS - Productos
 
-### 🛍️ PRODUCTS - Productos
-
-#### 1️⃣ Crear un nuevo producto
-```
+###### 1 Crear un nuevo producto
+`
 POST http://localhost:8080/api/v1/products
-```
+`
 
 **Body (JSON):**
-```json
+`json
 {
-  "name": "Laptop Gaming",
-  "description": "Laptop para juegos de alta gama con RTX 4080",
-  "price": 1500.00,
-  "stock": 10
+  "name": "Producto Ejemplo",
+  "price": 99.99
 }
-```
+`
 
 **Respuesta esperada (200):**
-```json
+`json
 {
   "id": 1,
-  "name": "Laptop Gaming",
-  "description": "Laptop para juegos de alta gama con RTX 4080",
-  "price": 1500.0,
-  "stock": 10
+  "name": "Producto Ejemplo",
+  "price": 99.99
 }
-```
+`
 
----
-
-#### 2️⃣ Obtener todos los productos
-```
+###### 2 Obtener todos los productos
+`
 GET http://localhost:8080/api/v1/products
-```
+`
 
 **Respuesta esperada (200):**
-```json
+`json
 [
   {
     "id": 1,
-    "name": "Laptop Gaming",
-    "description": "Laptop para juegos de alta gama con RTX 4080",
-    "price": 1500.0,
-    "stock": 10
-  },
-  {
-    "id": 2,
-    "name": "Mouse Inalámbrico",
-    "description": "Mouse ergonómico con batería recargable",
-    "price": 25.50,
-    "stock": 50
+    "name": "Producto Ejemplo",
+    "price": 99.99
   }
 ]
-```
+`
 
----
-
-#### 3️⃣ Obtener un producto por ID
-```
+###### 3 Obtener un producto por ID
+`
 GET http://localhost:8080/api/v1/products/1
-```
+`
 
 **Respuesta esperada (200):**
-```json
+`json
 {
   "id": 1,
-  "name": "Laptop Gaming",
-  "description": "Laptop para juegos de alta gama con RTX 4080",
-  "price": 1500.0,
-  "stock": 10
+  "name": "Producto Ejemplo",
+  "price": 99.99
 }
-```
+`
 
----
-
-#### 4️⃣ Eliminar un producto
-```
+###### 4 Eliminar un producto
+`
 DELETE http://localhost:8080/api/v1/products/1
-```
+`
 
 **Respuesta esperada (204):** Sin contenido
 
----
+Aseg�rate de que la aplicaci�n est� ejecut�ndose en http://localhost:8080 antes de probar.
 
-### 📦 Ejemplos adicionales de productos
+##  Estructura del Proyecto
 
-```json
-{
-  "name": "Teclado Mecánico RGB",
-  "description": "Teclado con switches Gateron Blue y iluminación RGB",
-  "price": 89.99,
-  "stock": 25
-}
-```
+`
+proyecto_FS3/
 
-```json
-{
-  "name": "Monitor 4K 144Hz",
-  "description": "Monitor gaming 27 pulgadas 4K con 144Hz",
-  "price": 599.99,
-  "stock": 8
-}
-```
+ src/
+    main/
+       java/com/primerproyecto/
+          PrimerProyectoApplication.java
+          api/
+             config/
+                SecurityConfig.java
+             controller/
+                ProductController.java
+                UserController.java
+             dto/
+                ProductDTO.java
+                UserDTO.java
+             model/
+                Product.java
+                User.java
+             repository/
+                ProductRepository.java
+                UserRepository.java
+             service/
+                 ProductService.java
+                 UserService.java
+       resources/
+           application.properties
+    test/
+        java/com/primerproyecto/
+            PrimerProyectoApplicationTests.java
 
-```json
-{
-  "name": "Auriculares Inalámbricos",
-  "description": "Auriculares Bluetooth con cancelación de ruido",
-  "price": 199.99,
-  "stock": 30
-}
-```
+ build.gradle
+ dockerfile
+ gradlew
+ gradlew.bat
+ init-mysql.sql
+ README.md
+ settings.gradle
+ test.http
+`
 
----
+##  Tecnolog�as Utilizadas
 
-### 📋 Pasos para probar en Postman
+- **Java**: Lenguaje de programaci�n principal
+- **Spring Boot**: Framework para aplicaciones Java
+- **Spring Data JPA**: Para el acceso a datos
+- **Spring Security**: Para la configuraci�n de seguridad
+- **MySQL**: Base de datos relacional
+- **Gradle**: Herramienta de construcci�n
+- **Tomcat**: Servidor embebido
+- **Docker**: Contenedorizaci�n (opcional)
 
-1. **Abre Postman**
-2. **Copia la URL** (ejemplo: `http://localhost:8080/api/v1/users`)
-3. **Selecciona el método HTTP** (GET, POST, DELETE)
-4. **Para POST:**
-   - Ve a la pestaña `Body`
-   - Selecciona `raw`
-   - Elige `JSON` en el dropdown
-   - Pega el JSON del Body
-5. **Click en `Send`**
-6. **Verifica la respuesta** en la sección inferior
+##  Contribuci�n
 
----
+Si deseas contribuir al proyecto:
 
-## 📖 Recursos Adicionales
+1. Haz un fork del repositorio.
+2. Crea una rama para tu feature (git checkout -b feature/nueva-funcionalidad).
+3. Commit tus cambios (git commit -am 'Agrega nueva funcionalidad').
+4. Push a la rama (git push origin feature/nueva-funcionalidad).
+5. Abre un Pull Request.
 
-- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
-- [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
-- [Lombok Documentation](https://projectlombok.org/)
-- [REST Best Practices](https://restfulapi.net/)
+##  Licencia
 
----
-
-### 🐳 Opción 2: Ejecución con Docker
-
-#### Requisito previo
-- Tener **Docker Desktop** instalado en tu máquina
-- Verificar que Docker está corriendo: `docker --version`
-
-#### 1️⃣ Construir la imagen Docker
-Desde la raíz del proyecto (donde está el `Dockerfile`):
-
-```powershell
-docker build -t primer-proyecto .
-```
-
-**¿Qué ocurre?**
-- Docker lee el `Dockerfile`
-- Descarga la imagen base (JDK 25)
-- Compila el proyecto con Gradle
-- Crea una imagen lista para ejecutar
-- **La primera vez tarda 1-2 minutos**
-
-**Verificar que se creó la imagen:**
-```powershell
-docker images | findstr primer-proyecto
-```
-
----
-
-#### 2️⃣ Ejecutar el contenedor
-```powershell
-docker run -d -p 3000:8080 --name mi-api primer-proyecto
-```
-
-| Parámetro | Significado |
-|---|---|
-| `-d` | Ejecuta en segundo plano (detached) |
-| `-p 3000:8080` | Mapea puerto 3000 (tu PC) → 8080 (contenedor) |
-| `--name mi-api` | Nombre del contenedor |
-| `primer-proyecto` | Nombre de la imagen |
-
-**Ejemplo con volumen (para guardar datos):**
-```powershell
-docker run -d `
-  -p 3000:8080 `
-  -v ${PWD}/data:/app/data `
-  --name mi-api `
-  primer-proyecto
-```
-
----
-
-#### 3️⃣ Verificar que el contenedor está corriendo
-```powershell
-docker ps
-```
-
-**Salida esperada:**
-```
-CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                             NAMES
-a892a8bcfa23   primer-proyecto   "sh -c 'java $JAVA_O…"  2 minutes ago   Up 2 minutes   0.0.0.0:3000->8080/tcp           mi-api
-```
-
----
-
-#### 4️⃣ Ver los logs del contenedor
-```powershell
-# Ver logs completos
-docker logs mi-api
-
-# Seguir logs en tiempo real
-docker logs -f mi-api
-```
-
-**¿Cuándo está listo?**
-Cuando veas: `Tomcat started on port 8080`
-
----
-
-#### 5️⃣ Acceder a la API
-```
-http://localhost:3000
-```
-
-✅ **¡Tu API está corriendo en Docker!**
-
----
-
-### 📋 Comandos Docker Útiles
-
-```powershell
-# Ver contenedores corriendo
-docker ps
-
-# Ver todos los contenedores (incluyendo detenidos)
-docker ps -a
-
-# Ver logs
-docker logs mi-api
-docker logs -f mi-api
-
-# Detener el contenedor
-docker stop mi-api
-
-# Iniciar nuevamente
-docker start mi-api
-
-# Reiniciar
-docker restart mi-api
-
-# Eliminar contenedor (debe estar detenido)
-docker stop mi-api
-docker rm mi-api
-
-# Eliminar la imagen
-docker rmi primer-proyecto
-
-# Limpiar todo (contenedores, imágenes sin usar)
-docker system prune -a
-```
-
----
-
-### 🔄 Flujo: Cambiar código → Actualizar en Docker
-
-1. **Modificas el código en `src/`**
-   ```powershell
-   # Edita tus archivos Java
-   ```
-
-2. **Reconstruyes la imagen**
-   ```powershell
-   docker build -t primer-proyecto .
-   ```
-   (Mucho más rápido la 2ª vez porque reutiliza caché)
-
-3. **Detiene el contenedor anterior**
-   ```powershell
-   docker stop mi-api
-   docker rm mi-api
-   ```
-
-4. **Ejecutas la nueva versión**
-   ```powershell
-   docker run -d -p 3000:8080 --name mi-api primer-proyecto
-   ```
-
-5. **Verificas que funciona**
-   ```powershell
-   docker logs -f mi-api
-   # Luego prueba: http://localhost:3000
-   ```
-
+Este proyecto est� bajo la Licencia MIT. Consulta el archivo LICENSE para m�s detalles.
