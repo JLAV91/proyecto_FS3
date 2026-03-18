@@ -295,8 +295,154 @@ DELETE http://localhost:8080/api/v1/products/1
 
 ---
 
-## 👨‍💼 Autor
+### 🐳 Opción 2: Ejecución con Docker
 
-Proyecto educativo para aprender Spring Boot
+#### Requisito previo
+- Tener **Docker Desktop** instalado en tu máquina
+- Verificar que Docker está corriendo: `docker --version`
 
-**¡Buena suerte con tu aprendizaje!** 🚀
+#### 1️⃣ Construir la imagen Docker
+Desde la raíz del proyecto (donde está el `Dockerfile`):
+
+```powershell
+docker build -t primer-proyecto .
+```
+
+**¿Qué ocurre?**
+- Docker lee el `Dockerfile`
+- Descarga la imagen base (JDK 25)
+- Compila el proyecto con Gradle
+- Crea una imagen lista para ejecutar
+- **La primera vez tarda 1-2 minutos**
+
+**Verificar que se creó la imagen:**
+```powershell
+docker images | findstr primer-proyecto
+```
+
+---
+
+#### 2️⃣ Ejecutar el contenedor
+```powershell
+docker run -d -p 3000:8080 --name mi-api primer-proyecto
+```
+
+| Parámetro | Significado |
+|---|---|
+| `-d` | Ejecuta en segundo plano (detached) |
+| `-p 3000:8080` | Mapea puerto 3000 (tu PC) → 8080 (contenedor) |
+| `--name mi-api` | Nombre del contenedor |
+| `primer-proyecto` | Nombre de la imagen |
+
+**Ejemplo con volumen (para guardar datos):**
+```powershell
+docker run -d `
+  -p 3000:8080 `
+  -v ${PWD}/data:/app/data `
+  --name mi-api `
+  primer-proyecto
+```
+
+---
+
+#### 3️⃣ Verificar que el contenedor está corriendo
+```powershell
+docker ps
+```
+
+**Salida esperada:**
+```
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                             NAMES
+a892a8bcfa23   primer-proyecto   "sh -c 'java $JAVA_O…"  2 minutes ago   Up 2 minutes   0.0.0.0:3000->8080/tcp           mi-api
+```
+
+---
+
+#### 4️⃣ Ver los logs del contenedor
+```powershell
+# Ver logs completos
+docker logs mi-api
+
+# Seguir logs en tiempo real
+docker logs -f mi-api
+```
+
+**¿Cuándo está listo?**
+Cuando veas: `Tomcat started on port 8080`
+
+---
+
+#### 5️⃣ Acceder a la API
+```
+http://localhost:3000
+```
+
+✅ **¡Tu API está corriendo en Docker!**
+
+---
+
+### 📋 Comandos Docker Útiles
+
+```powershell
+# Ver contenedores corriendo
+docker ps
+
+# Ver todos los contenedores (incluyendo detenidos)
+docker ps -a
+
+# Ver logs
+docker logs mi-api
+docker logs -f mi-api
+
+# Detener el contenedor
+docker stop mi-api
+
+# Iniciar nuevamente
+docker start mi-api
+
+# Reiniciar
+docker restart mi-api
+
+# Eliminar contenedor (debe estar detenido)
+docker stop mi-api
+docker rm mi-api
+
+# Eliminar la imagen
+docker rmi primer-proyecto
+
+# Limpiar todo (contenedores, imágenes sin usar)
+docker system prune -a
+```
+
+---
+
+### 🔄 Flujo: Cambiar código → Actualizar en Docker
+
+1. **Modificas el código en `src/`**
+   ```powershell
+   # Edita tus archivos Java
+   ```
+
+2. **Reconstruyes la imagen**
+   ```powershell
+   docker build -t primer-proyecto .
+   ```
+   (Mucho más rápido la 2ª vez porque reutiliza caché)
+
+3. **Detiene el contenedor anterior**
+   ```powershell
+   docker stop mi-api
+   docker rm mi-api
+   ```
+
+4. **Ejecutas la nueva versión**
+   ```powershell
+   docker run -d -p 3000:8080 --name mi-api primer-proyecto
+   ```
+
+5. **Verificas que funciona**
+   ```powershell
+   docker logs -f mi-api
+   # Luego prueba: http://localhost:3000
+   ```
+
